@@ -1,2 +1,2 @@
-# rpg-arene- 
-basic clone of sord and sandals for universiti project
+# rpg-arena- 
+basic clone of sword and sandals for university project
