@@ -1,0 +1,96 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+namespace RPGFight
+
+{
+    abstract class Character
+    {
+        public string Name { get; set; }
+        public int Health { get; set; }
+        public int MaxHealth { get; set; }
+        public int AttackPower { get; set; }
+        public int BlockDmg { get; set; }
+        public int HealthPotion { get; set; }
+
+        public decimal ArmourValue { get; set; }
+
+        public List<StatusEffect> ActiveEffects { get; private set; } = new List<StatusEffect>();
+
+
+
+        public Character(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg)
+        {
+            Name = name;
+            Health = health;
+            AttackPower = attackPower;
+            HealthPotion = healthPotion;
+            ArmourValue = armourValue;
+            MaxHealth = maxHealth;
+            BlockDmg = blockDmg;
+
+        }
+
+        public void ApplyStatusEffect(StatusEffect effect)
+        {
+            ActiveEffects.Add(effect);
+            Console.WriteLine($"{Name} is affected by {effect.Name} for {effect.Duration} turns!");
+        }
+
+        public void ProcessEffects()
+        {
+            for (int i = ActiveEffects.Count - 1; i >= 0; i--)
+            {
+                StatusEffect effect = ActiveEffects[i];
+                effect.ApplyEffect(this);
+                effect.ReduceDuration();
+
+                if (effect.IsExpired())
+                {
+                    Console.WriteLine($"{effect.Name} has expired on {Name}.");
+                    ActiveEffects.RemoveAt(i);
+                }
+            }
+        }
+
+        public abstract void TakeTurn(Character oponent, Random random);
+        public int DealDamage(Random random)
+        {
+            return random.Next(AttackPower - 5, AttackPower + 5);
+        }
+
+        public int HealDamage(Random random)
+        {
+            if (HealthPotion > 0)
+            {
+                HealthPotion -= 1;
+                int Heal = random.Next(20, 40);
+                Health += Heal;
+                if (Health > MaxHealth) Health = MaxHealth; // Ensure health doesn't go over max walue
+                return Heal;
+            }
+            else { return 0; }
+        }
+
+        public int TakeDamage(int damage)
+        {
+            damage = damage - BlockDmg;
+            BlockDmg = 0;
+            if (ArmourValue > 0)
+            {
+                decimal taken = damage * ArmourValue;
+                damage = (int)Math.Round(taken, 0);
+                Health -= damage;
+
+            }
+            else
+                Health -= damage;
+            if (Health < 0) Health = 0; // Ensure health doesn't go below zero
+            return damage;
+        }
+    }
+}
