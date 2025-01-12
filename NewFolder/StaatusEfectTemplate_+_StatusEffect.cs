@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace RPGFight
 
 {
-    class StatusEffect
+    public abstract class StatusEffect
     {
         public string Name { get; set; }
         public int Duration { get; set; } // Number of turns the effect lasts
@@ -33,7 +33,7 @@ namespace RPGFight
             return Duration <= 0;
         }
     }
-    class DamageOverTime : StatusEffect
+   public class DamageOverTime : StatusEffect
     {
         public int DamagePerTurn { get; set; }
 
@@ -49,6 +49,21 @@ namespace RPGFight
             Console.WriteLine($"{target.Name} takes {DamagePerTurn} damage from {Name}!");
         }
     }
+   public  class HealOverTime : StatusEffect
+    {
+        public int DamagePerTurn { get; set; }
 
+        public HealOverTime(string name, int duration, int damagePerTurn)
+            : base(name, duration)
+        {
+            DamagePerTurn = damagePerTurn;
+        }
+
+        public override void ApplyEffect(Character target)
+        {
+            target.Health += 10;
+            Console.WriteLine($"{target.Name} restores {DamagePerTurn} health from {Name}!");
+        }
+    }
 
 }

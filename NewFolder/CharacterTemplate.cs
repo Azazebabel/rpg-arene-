@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace RPGFight
 
 {
-    abstract class Character
+    public abstract class Character
     {
         public string Name { get; set; }
         public int Health { get; set; }
@@ -16,14 +16,16 @@ namespace RPGFight
         public int AttackPower { get; set; }
         public int BlockDmg { get; set; }
         public int HealthPotion { get; set; }
-
+        public int Gold { get; set; }
         public decimal ArmourValue { get; set; }
+
+        public Weapon Wepon { get; set; }
 
         public List<StatusEffect> ActiveEffects { get; private set; } = new List<StatusEffect>();
 
 
 
-        public Character(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg)
+        public Character(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg, int gold,Weapon weapon)
         {
             Name = name;
             Health = health;
@@ -32,10 +34,11 @@ namespace RPGFight
             ArmourValue = armourValue;
             MaxHealth = maxHealth;
             BlockDmg = blockDmg;
-
+            Gold = gold;
+            Wepon = weapon;
         }
 
-        public void ApplyStatusEffect(StatusEffect effect)
+        public void ApplyStatusEffect(StatusEffect effect) 
         {
             ActiveEffects.Add(effect);
             Console.WriteLine($"{Name} is affected by {effect.Name} for {effect.Duration} turns!");

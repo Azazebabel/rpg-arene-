@@ -10,11 +10,10 @@ namespace RPGFight
     class Player : Character
     {
 
-        public Player(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg)
-        : base(name, health, attackPower, healthPotion, armourValue, maxHealth, blockDmg)
+        public Player(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg, int gold,Weapon weapon)
+        : base(name, health, attackPower, healthPotion, armourValue, maxHealth, blockDmg, gold,weapon)
         {
         }
-
 
 
 
@@ -34,7 +33,7 @@ namespace RPGFight
             {
                 int damage = DealDamage(random);
                 damage = enemy.TakeDamage(damage);
-                Console.WriteLine($"{Name} attacks {enemy.Name} for {damage} damage!");
+                Console.WriteLine($"{Name} attacks  {enemy.Name} using {Wepon.Name} for {damage} damage!");
             }
             else if (choice == "2")
             {

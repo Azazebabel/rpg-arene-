@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace RPGFight
 {
@@ -19,8 +20,8 @@ namespace RPGFight
             Console.WriteLine("Welcome to the Command-Line RPG!");
 
             // Create player and enemy
-            Player player = new Player("Player", 100, 20, 8, 0.9m, 120, 0);
-            Goblin enemy = new Goblin("Enemy", 80, 15, 8, 0m, 90, 5);
+            Player player = new Player("Player", 100, 20, 8, 0.9m, 120, 0,0,new Fist());
+            Goblin enemy = new Goblin("Enemy", 80, 15, 8, 0m, 90, 5,10,new Sword());
 
             Random random = new Random();
 
@@ -29,6 +30,7 @@ namespace RPGFight
             {
                 player.TakeTurn(enemy, random);
                 if (enemy.Health <= 0)
+
                 {
                     Console.WriteLine($"\n{enemy.Name} has been defeated!");
                     break;
@@ -44,7 +46,60 @@ namespace RPGFight
                 DisplayHealth(player, enemy);
             }
             Console.WriteLine("\nFIrt enemy slain !");
-            Console.WriteLine("\nGame Over. Thanks for playing!");
+            Fighting fighting = new Fighting();
+            while (true)
+            {
+                Console.WriteLine("Chose action ");
+                Console.WriteLine("1. Go fight ");
+                Console.WriteLine("2. Go shoping");
+                Console.WriteLine("3. Heal ,you have " + player.HealthPotion + " potions");
+                Console.WriteLine("4. Save and exit");
+                Console.Write("Choose an action: ");
+                string choice = Console.ReadLine();
+
+                if (choice == "1")
+                {
+                    fighting.Arena(player,random);
+                }
+                else if (choice == "2")
+                {
+                   
+                }
+                else if (choice == "4")
+                {
+                    Save save = new Save();
+                    save.SaveFile(player);
+                    return;
+                }
+                else if (choice == "3")
+                {
+                    if (player.HealthPotion > 0)
+                    {
+                        int heal = player.HealDamage(random);
+                        Console.WriteLine($"{player.Name} drinks health potion for {heal}.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("You ran out of potions!! And you are Ugly.");
+                        return;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid choice! You are stupid !!");
+                }
+
+
+
+
+
+
+                if (player.Health <= 0)
+                {
+                    Console.WriteLine("\nGame Over. Thanks for playing!");
+                    return;
+                }
+            }
         }
 
 
