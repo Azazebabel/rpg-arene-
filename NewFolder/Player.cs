@@ -17,7 +17,6 @@ namespace RPGFight
 
 
 
-
         public override void TakeTurn(Character enemy, Random random)
         {
             Console.WriteLine("\nYour Turn:");

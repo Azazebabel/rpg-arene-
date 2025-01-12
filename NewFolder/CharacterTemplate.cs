@@ -16,14 +16,14 @@ namespace RPGFight
         public int AttackPower { get; set; }
         public int BlockDmg { get; set; }
         public int HealthPotion { get; set; }
-
+        public int Gold { get; set; }
         public decimal ArmourValue { get; set; }
 
         public List<StatusEffect> ActiveEffects { get; private set; } = new List<StatusEffect>();
 
 
 
-        public Character(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg)
+        public Character(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg, int gold)
         {
             Name = name;
             Health = health;
@@ -32,7 +32,7 @@ namespace RPGFight
             ArmourValue = armourValue;
             MaxHealth = maxHealth;
             BlockDmg = blockDmg;
-
+            Gold = gold;
         }
 
         public void ApplyStatusEffect(StatusEffect effect)

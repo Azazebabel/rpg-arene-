@@ -49,6 +49,21 @@ namespace RPGFight
             Console.WriteLine($"{target.Name} takes {DamagePerTurn} damage from {Name}!");
         }
     }
+    class HealOverTime : StatusEffect
+    {
+        public int DamagePerTurn { get; set; }
 
+        public HelaOverTime(string name, int duration, int damagePerTurn)
+            : base(name, duration)
+        {
+            DamagePerTurn = damagePerTurn;
+        }
+
+        public override void ApplyEffect(Character target)
+        {
+            target.Health += 10;
+            Console.WriteLine($"{target.Name} restores {DamagePerTurn} health from {Name}!");
+        }
+    }
 
 }

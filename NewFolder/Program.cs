@@ -20,7 +20,7 @@ namespace RPGFight
 
             // Create player and enemy
             Player player = new Player("Player", 100, 20, 8, 0.9m, 120, 0);
-            Goblin enemy = new Goblin("Enemy", 80, 15, 8, 0m, 90, 5);
+            Zombie enemy = new Goblin("Enemy", 80, 15, 8, 0m, 90, 5);
 
             Random random = new Random();
 
@@ -44,7 +44,12 @@ namespace RPGFight
                 DisplayHealth(player, enemy);
             }
             Console.WriteLine("\nFIrt enemy slain !");
-            Console.WriteLine("\nGame Over. Thanks for playing!");
+            if (player.Health <= 0)
+            {
+                Console.WriteLine("\nGame Over. Thanks for playing!");
+                return;
+            }
+
         }
 
 
