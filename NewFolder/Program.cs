@@ -18,9 +18,12 @@ namespace RPGFight
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the Command-Line RPG!");
+            Save save = new Save();
+            save.InitializeDatabase();
 
-            // Create player and enemy
-            Player player = new Player("Player", 100, 20, 8, 0.9m, 120, 0,0,new Fist());
+             
+            
+            Player player = save.LoadPlayer();
             Goblin enemy = new Goblin("Enemy", 80, 15, 8, 0m, 90, 5,10,new Sword());
 
             Random random = new Random();
@@ -67,7 +70,7 @@ namespace RPGFight
                 }
                 else if (choice == "4")
                 {
-                    Save save = new Save();
+                    
                     save.SaveFile(player);
                     return;
                 }

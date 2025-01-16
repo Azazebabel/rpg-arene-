@@ -33,7 +33,7 @@ namespace RPGFight
             return Duration <= 0;
         }
     }
-   public class DamageOverTime : StatusEffect
+    public class DamageOverTime : StatusEffect
     {
         public int DamagePerTurn { get; set; }
 
@@ -49,7 +49,7 @@ namespace RPGFight
             Console.WriteLine($"{target.Name} takes {DamagePerTurn} damage from {Name}!");
         }
     }
-   public  class HealOverTime : StatusEffect
+    class HealOverTime : StatusEffect
     {
         public int DamagePerTurn { get; set; }
 
@@ -65,5 +65,4 @@ namespace RPGFight
             Console.WriteLine($"{target.Name} restores {DamagePerTurn} health from {Name}!");
         }
     }
-
 }

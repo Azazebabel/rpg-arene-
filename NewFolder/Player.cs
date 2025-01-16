@@ -7,7 +7,8 @@ using System.Xml.Linq;
 
 namespace RPGFight
 {
-    class Player : Character
+
+   public  class Player : Character
     {
 
         public Player(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg, int gold,Weapon weapon)
