@@ -46,19 +46,18 @@ namespace RPGFight
                                 Console.WriteLine($"MaxHealth: {reader.GetInt32(6)}");
                                 Console.WriteLine($"BlockDmg: {reader.GetInt32(7)}");
                                 Console.WriteLine($"Gold: {reader.GetInt32(8)}");
-                                // Ensure indices align with your database schema
                                 return new Player(
-                                    reader.GetString(1), // Name
-                                    reader.GetInt32(2),  // Health
-                                    reader.GetInt32(3),  // AttackPower
-                                    reader.GetInt32(4),  // HealthPotion    
-
-                                    reader.GetDecimal(5),  //  ArmourValue             
-                                    reader.GetInt32(6),  // MaxHealth
-                                    reader.GetInt32(7),  // BlockDmg
-                                    reader.GetInt32(8),// Gold
-                                new Sword()          //  weapon
-                                );
+                                 reader.GetString(1),  // Name
+                                 reader.GetInt32(2),   // Health
+                                 reader.GetInt32(3),   // AttackPower
+                                 reader.GetInt32(4),   // HealthPotion    
+                                 reader.GetDecimal(5), // ArmourValue
+                                 reader.GetInt32(6),   // MaxHealth
+                                 reader.GetInt32(7),   // BlockDmg
+                                 reader.GetInt32(8),   // Gold
+                                 new Fist()            // Weapon placeholder
+                             );
+                               
                             }
                         }
                     }
@@ -68,7 +67,7 @@ namespace RPGFight
                 return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 0, new Fist());
             }
             else
-                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 0, new Fist());
+                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 10, new Fist());
         }
 
         public void SaveFile(Character player)
@@ -77,26 +76,26 @@ namespace RPGFight
             {
                 connection.Open();
                 string insertQuery = @"
-                  INSERT INTO Player (Name, Health, MaxHealth, AttackPower, HealthPotion, BlockDmg, Gold, ArmourValue, Weapon)
-                   VALUES (@Name, @Health, @MaxHealth, @AttackPower, @HealthPotion, @BlockDmg, @Gold, @ArmourValue, @Weapon);
-                ";
-              
+                    INSERT INTO Player (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon)
+                    VALUES (@Name, @Health, @AttackPower, @HealthPotion, @ArmourValue, @MaxHealth, @BlockDmg, @Gold, @Weapon);
+                    ";
+
 
                 using (var command = new SqliteCommand(insertQuery, connection))
                 {
                     command.Parameters.AddWithValue("@Name", player.Name);
                     command.Parameters.AddWithValue("@Health", player.Health);
-                    command.Parameters.AddWithValue("@MaxHealth", player.MaxHealth);
                     command.Parameters.AddWithValue("@AttackPower", player.AttackPower);
                     command.Parameters.AddWithValue("@HealthPotion", player.HealthPotion);
+                    command.Parameters.AddWithValue("@ArmourValue", player.ArmourValue);
+                    command.Parameters.AddWithValue("@MaxHealth", player.MaxHealth);
                     command.Parameters.AddWithValue("@BlockDmg", player.BlockDmg);
                     command.Parameters.AddWithValue("@Gold", player.Gold);
-                    command.Parameters.AddWithValue("@ArmourValue", player.ArmourValue);
                     command.Parameters.AddWithValue("@Weapon", player.Wepon.Name);
 
                     command.ExecuteNonQuery();
                 }
-
+                Console.WriteLine($"Saving Player: {player.Name}, {player.Health}, {player.AttackPower}, {player.HealthPotion}, {player.ArmourValue}, {player.MaxHealth}, {player.BlockDmg}, {player.Gold}, {player.Wepon.Name}");
                 Console.WriteLine("Player data saved to database.");
             }
         }
@@ -108,19 +107,18 @@ namespace RPGFight
                 connection.Open();
 
                 string createTableQuery = @"
-                CREATE TABLE IF NOT EXISTS Player (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Name TEXT NOT NULL,
-                    Health INTEGER NOT NULL,                  
-                    AttackPower INTEGER NOT NULL,
-                    HealthPotion INTEGER NOT NULL,
-                    ArmourValue DECIMAL NOT NULL,
-                    MaxHealth INTEGER NOT NULL,
-                    BlockDmg INTEGER NOT NULL,
-                    Gold INTEGER NOT NULL,
-                    
-                    Weapon TEXT NOT NULL
-                );
+                        CREATE TABLE IF NOT EXISTS Player (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Name TEXT NOT NULL,
+                        Health INTEGER NOT NULL,                  
+                        AttackPower INTEGER NOT NULL,
+                        HealthPotion INTEGER NOT NULL,
+                        ArmourValue DECIMAL NOT NULL,
+                        MaxHealth INTEGER NOT NULL,
+                        BlockDmg INTEGER NOT NULL,
+                        Gold INTEGER NOT NULL,
+                        Weapon TEXT NOT NULL
+                    );
             ";
 
                 using (var command = new SqliteCommand(createTableQuery, connection))
