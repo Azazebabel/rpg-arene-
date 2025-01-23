@@ -1,18 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Xml.Linq;
+using PGFight;
 
 namespace RPGFight
 {
-
-
-
-
-
-
-
-
-
-
     class Program
     {
         static void Main(string[] args)
@@ -21,11 +12,16 @@ namespace RPGFight
             Save save = new Save();
             save.InitializeDatabase();
 
-             
-            
-            Player player = save.LoadPlayer();
-            Goblin enemy = new Goblin("Enemy", 80, 15, 8, 0m, 90, 5,10,new Sword());
+            save.InitializeGoblinDatabase();
 
+            save.InitializeZombieDatabase();
+
+
+
+
+            Player player = save.LoadPlayer();
+            Goblin enemy = new Goblin("Enemy", 80, 15, 8, 0m, 90, 5,10,new Sword(), 0);
+            Shop shop = new Shop();
             Random random = new Random();
 
             // Main game loop
@@ -52,6 +48,7 @@ namespace RPGFight
             Fighting fighting = new Fighting();
             while (true)
             {
+                DisplayHealth(player, enemy);
                 Console.WriteLine("Chose action ");
                 Console.WriteLine("1. Go fight ");
                 Console.WriteLine("2. Go shoping");
@@ -66,7 +63,7 @@ namespace RPGFight
                 }
                 else if (choice == "2")
                 {
-                   
+                    shop.Shoping(player);
                 }
                 else if (choice == "4")
                 {
@@ -80,6 +77,7 @@ namespace RPGFight
                     {
                         int heal = player.HealDamage(random);
                         Console.WriteLine($"{player.Name} drinks health potion for {heal}.");
+                        DisplayHealth(player, enemy);
                     }
                     else
                     {
@@ -100,6 +98,7 @@ namespace RPGFight
                 if (player.Health <= 0)
                 {
                     Console.WriteLine("\nGame Over. Thanks for playing!");
+                    save.DeleteSave(player.Name);
                     return;
                 }
             }
@@ -112,6 +111,7 @@ namespace RPGFight
         static void DisplayHealth(Character player, Character enemy)
         {
             Console.WriteLine($"\n{player.Name} Health: {player.Health}");
+            if(enemy.Health < 0)
             Console.WriteLine($"{enemy.Name} Health: {enemy.Health}");
         }
     }

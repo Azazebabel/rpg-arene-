@@ -24,8 +24,9 @@ namespace RPGFight
         public List<StatusEffect> ActiveEffects { get; private set; } = new List<StatusEffect>();
 
 
+        public int Exp { get; set; }
 
-        public Character(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg, int gold,Weapon weapon)
+        public Character(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg, int gold,Weapon weapon, int exp)
         {
             Name = name;
             Health = health;
@@ -36,8 +37,9 @@ namespace RPGFight
             BlockDmg = blockDmg;
             Gold = gold;
             Wepon = weapon;
+            Exp = exp;
         }
-
+        public void LevelUp() { }
         public void ApplyStatusEffect(StatusEffect effect) 
         {
             ActiveEffects.Add(effect);
@@ -50,7 +52,7 @@ namespace RPGFight
             {
                 StatusEffect effect = ActiveEffects[i];
                 effect.ApplyEffect(this);
-                effect.ReduceDuration();
+                effect.ReduceDuration(this);
 
                 if (effect.IsExpired())
                 {

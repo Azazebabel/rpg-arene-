@@ -21,21 +21,49 @@ namespace RPGFight
             public abstract int DealDamage(Random random, Character user);
             public abstract void ApplySpecialEffect(Character target, Random random);
         }
-
-   public class Sword : Weapon
+    public class Spear : Weapon
     {
-        public Sword() : base("Sword", 15) { }
+        public Spear() : base("Spear", 15) { }
 
         public override int DealDamage(Random random, Character user)
         {
             // Slight variation in damage
-            return random.Next(AditionalDamage + user.AttackPower - 3, AditionalDamage+ user.AttackPower + 3);
+            return random.Next(user.AttackPower, AditionalDamage + user.AttackPower );
         }
 
         public override void ApplySpecialEffect(Character target, Random random)
         {
-            // No special effect for a basic sword
-            Console.WriteLine($"{Name} has no special effect.");
+
+        }
+    }
+    public class Fail : Weapon
+    {
+        public Fail() : base("Fail", 0) { }
+
+        public override int DealDamage(Random random, Character user)
+        {
+            // Slight variation in damage
+            return random.Next( 0, AditionalDamage + user.AttackPower + 40);
+        }
+
+        public override void ApplySpecialEffect(Character target, Random random)
+        {
+
+        }
+    }
+    public class Sword : Weapon
+    {
+        public Sword() : base("Sword", 10) { }
+
+        public override int DealDamage(Random random, Character user)
+        {
+            // Slight variation in damage
+            return random.Next(AditionalDamage + user.AttackPower - 5, AditionalDamage+ user.AttackPower + 3);
+        }
+
+        public override void ApplySpecialEffect(Character target, Random random)
+        {
+           
         }
     }
   public   class Fist : Weapon
@@ -50,10 +78,24 @@ namespace RPGFight
 
         public override void ApplySpecialEffect(Character target, Random random)
         {
-            // No special effect for a basic sword
-            Console.WriteLine($"{Name} has no special effect.");
+            
         }
     }
 
+    public class MagicSword : Weapon
+    {
+        public MagicSword() : base("Magic sword", 50) { }
+
+        public override int DealDamage(Random random, Character user)
+        {
+            // Slight variation in damage
+            return (user.AttackPower + AditionalDamage);
+        }
+
+        public override void ApplySpecialEffect(Character target, Random random)
+        {
+
+        }
+    }
 
 }

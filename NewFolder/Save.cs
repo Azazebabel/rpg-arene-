@@ -55,19 +55,20 @@ namespace RPGFight
                                  reader.GetInt32(6),   // MaxHealth
                                  reader.GetInt32(7),   // BlockDmg
                                  reader.GetInt32(8),   // Gold
-                                 new Fist()            // Weapon placeholder
+                                new Fist()         , // Weapon placeholder
+                                reader.GetInt32(10) //exp
                              );
-                               
+
                             }
                         }
                     }
                 }
 
                 Console.WriteLine("No saved player data found.");
-                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 0, new Fist());
+                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 0, new Fist(),0);
             }
             else
-                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 10, new Fist());
+                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 10, new Fist(),0);
         }
 
         public void SaveFile(Character player)
@@ -76,8 +77,8 @@ namespace RPGFight
             {
                 connection.Open();
                 string insertQuery = @"
-                    INSERT INTO Player (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon)
-                    VALUES (@Name, @Health, @AttackPower, @HealthPotion, @ArmourValue, @MaxHealth, @BlockDmg, @Gold, @Weapon);
+                    INSERT INTO Player (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon,Exp)
+                    VALUES (@Name, @Health, @AttackPower, @HealthPotion, @ArmourValue, @MaxHealth, @BlockDmg, @Gold, @Weapon,@Exp);
                     ";
 
 
@@ -92,11 +93,29 @@ namespace RPGFight
                     command.Parameters.AddWithValue("@BlockDmg", player.BlockDmg);
                     command.Parameters.AddWithValue("@Gold", player.Gold);
                     command.Parameters.AddWithValue("@Weapon", player.Wepon.Name);
+                    command.Parameters.AddWithValue("@Exp", player.Exp);
 
                     command.ExecuteNonQuery();
                 }
-                Console.WriteLine($"Saving Player: {player.Name}, {player.Health}, {player.AttackPower}, {player.HealthPotion}, {player.ArmourValue}, {player.MaxHealth}, {player.BlockDmg}, {player.Gold}, {player.Wepon.Name}");
+                Console.WriteLine($"Saving Player: {player.Name}, {player.Health}, {player.AttackPower}, {player.HealthPotion}, {player.ArmourValue}, {player.MaxHealth}, {player.BlockDmg}, {player.Gold}, {player.Wepon.Name}, {player.Exp}");
                 Console.WriteLine("Player data saved to database.");
+            }
+        }
+        public void DeleteSave(string playerName)
+        {
+            using (var connection = new SqliteConnection(ConnectionString))
+            {
+                connection.Open();
+
+                string deleteQuery = "DELETE FROM Player WHERE Name = @Name;";
+
+                using (var command = new SqliteCommand(deleteQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Name", playerName);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                  
+                }
             }
         }
 
@@ -117,7 +136,8 @@ namespace RPGFight
                         MaxHealth INTEGER NOT NULL,
                         BlockDmg INTEGER NOT NULL,
                         Gold INTEGER NOT NULL,
-                        Weapon TEXT NOT NULL
+                        Weapon TEXT NOT NULL,
+                        Exp INTEGER NOT NULL
                     );
             ";
 
@@ -127,6 +147,100 @@ namespace RPGFight
                 }
 
                 Console.WriteLine("Database initialized and Player table created.");
+            }
+        }
+        public void InitializeGoblinDatabase()
+        {
+            using (var connection = new SqliteConnection("Data Source=Goblin.db"))
+            {
+                connection.Open();
+
+                string createTableQuery = @"
+                        CREATE TABLE IF NOT EXISTS Goblin (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Name TEXT NOT NULL,
+                        Health INTEGER NOT NULL,                  
+                        AttackPower INTEGER NOT NULL,
+                        HealthPotion INTEGER NOT NULL,
+                        ArmourValue DECIMAL NOT NULL,
+                        MaxHealth INTEGER NOT NULL,
+                        BlockDmg INTEGER NOT NULL,
+                        Gold INTEGER NOT NULL,
+                        Weapon TEXT NOT NULL,
+                        Exp INTEGER NOT NULL
+                    );
+            ";
+
+                using (var command = new SqliteCommand(createTableQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("Database initialized and Goblin table created.");
+            
+           
+            
+
+                string insertQuery = @"
+            INSERT INTO Goblin (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon,Exp)
+            VALUES
+                ('Sword Gobo', 80, 15, 0, 0, 80, 0, 10, 'Sword',0),
+                ('Spearman Goblin', 60, 10, 0, 0.9, 60, 0, 15, 'Spear',0);
+        ";
+
+                using (var command = new SqliteCommand(insertQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("Default Goblin data inserted.");
+            }
+        }
+        public void InitializeZombieDatabase()
+        {
+            using (var connection = new SqliteConnection("Data Source=Zombie.db"))
+            {
+                connection.Open();
+
+                string createTableQuery = @"
+                        CREATE TABLE IF NOT EXISTS Zombie (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Name TEXT NOT NULL,
+                        Health INTEGER NOT NULL,                  
+                        AttackPower INTEGER NOT NULL,
+                        HealthPotion INTEGER NOT NULL,
+                        ArmourValue DECIMAL NOT NULL,
+                        MaxHealth INTEGER NOT NULL,
+                        BlockDmg INTEGER NOT NULL,
+                        Gold INTEGER NOT NULL,
+                        Weapon TEXT NOT NULL,
+                        Exp INTEGER NOT NULL
+                    );
+            ";
+
+                using (var command = new SqliteCommand(createTableQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("Database initialized and Goblin table created.");
+
+
+
+
+                string insertQuery = @"
+            INSERT INTO Zombie (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon,Exp)
+            VALUES
+                ('Unamed Corpse', 80, 15, 0, 0.9, 80, 0, 10, 'Fist',0),
+                ('Named Corpse', 60, 10, 0, 0.8, 60, 0, 15, 'Fist',0);
+        ";
+
+                using (var command = new SqliteCommand(insertQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("Default Zombie data inserted.");
             }
         }
     }
