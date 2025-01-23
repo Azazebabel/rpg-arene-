@@ -23,7 +23,7 @@ namespace RPGFight
             // Base logic (can be overridden by child classes)
         }
 
-        public void ReduceDuration()
+        public virtual void ReduceDuration(Character target)
         {
             Duration--;
         }
@@ -63,6 +63,34 @@ namespace RPGFight
         {
             target.Health += 10;
             Console.WriteLine($"{target.Name} restores {DamagePerTurn} health from {Name}!");
+        }
+    }
+    public class AttackPowerNerf : StatusEffect
+    {
+        public int AttackReduction { get; set; }
+
+        public AttackPowerNerf(string name, int duration, int attackReduction)
+            : base(name, duration)
+        {
+            AttackReduction = attackReduction;
+        }
+
+        public override void ApplyEffect(Character target)
+        {
+            target.AttackPower -= AttackReduction;
+            Console.WriteLine($"{target.Name}'s Attack Power is reduced by {AttackReduction} due to {Name}!");
+        }
+
+        public override void ReduceDuration(Character target)
+        {
+            base.ReduceDuration( target);
+
+            // If the effect expires, restore the attack power
+            if (IsExpired())
+            {
+                target.AttackPower += AttackReduction;
+                Console.WriteLine($"{Name} effect has expired. {target.Name}'s Attack Power is restored by {AttackReduction}.");
+            }
         }
     }
 }

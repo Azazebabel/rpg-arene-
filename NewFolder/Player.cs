@@ -11,13 +11,48 @@ namespace RPGFight
    public  class Player : Character
     {
 
-        public Player(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg, int gold,Weapon weapon)
-        : base(name, health, attackPower, healthPotion, armourValue, maxHealth, blockDmg, gold,weapon)
+        public Player(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg, int gold,Weapon weapon, int exp)
+        : base(name, health, attackPower, healthPotion, armourValue, maxHealth, blockDmg, gold, weapon, exp)
         {
+            
         }
+        
+        public void LevelUp() {
+            if (Exp >= 100)
+                { Exp -= 100;
+                while (true)
+                {
+                    Console.WriteLine("YOU LEVEL UP !!!!!!! ");
+                    Console.WriteLine("Chose what to upegrade ");
+                    Console.WriteLine("1. Attack");
+                    Console.WriteLine("2. Health / If you chose this you will heal to full ");
+                    Console.Write("Choose an action: ");
+                    string choice = Console.ReadLine();
+                    if (choice == "1")
+                    {
+                        AttackPower += 20;
+
+                        Console.WriteLine($"Attack incresed by 20 current attack is{AttackPower} ");
+                        return;
+                    }
+                    else if (choice == "2")
+                    {
+                        MaxHealth += 20;
+                        Health = MaxHealth;
+
+                        Console.WriteLine($"Health  incresed by 20 current MaxHealth  is{MaxHealth} ");
+                        return;
+                    }
+
+                }
+            }
 
 
-
+            return;
+            
+            
+            
+            }
         public override void TakeTurn(Character enemy, Random random)
         {
             Console.WriteLine("\nYour Turn:");

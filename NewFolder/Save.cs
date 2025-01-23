@@ -55,19 +55,20 @@ namespace RPGFight
                                  reader.GetInt32(6),   // MaxHealth
                                  reader.GetInt32(7),   // BlockDmg
                                  reader.GetInt32(8),   // Gold
-                                 new Fist()            // Weapon placeholder
+                                new Fist()         , // Weapon placeholder
+                                reader.GetInt32(10) //exp
                              );
-                               
+
                             }
                         }
                     }
                 }
 
                 Console.WriteLine("No saved player data found.");
-                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 0, new Fist());
+                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 0, new Fist(),0);
             }
             else
-                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 10, new Fist());
+                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 10, new Fist(),0);
         }
 
         public void SaveFile(Character player)
@@ -76,8 +77,8 @@ namespace RPGFight
             {
                 connection.Open();
                 string insertQuery = @"
-                    INSERT INTO Player (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon)
-                    VALUES (@Name, @Health, @AttackPower, @HealthPotion, @ArmourValue, @MaxHealth, @BlockDmg, @Gold, @Weapon);
+                    INSERT INTO Player (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon,Exp)
+                    VALUES (@Name, @Health, @AttackPower, @HealthPotion, @ArmourValue, @MaxHealth, @BlockDmg, @Gold, @Weapon,@Exp);
                     ";
 
 
@@ -92,10 +93,11 @@ namespace RPGFight
                     command.Parameters.AddWithValue("@BlockDmg", player.BlockDmg);
                     command.Parameters.AddWithValue("@Gold", player.Gold);
                     command.Parameters.AddWithValue("@Weapon", player.Wepon.Name);
+                    command.Parameters.AddWithValue("@Exp", player.Exp);
 
                     command.ExecuteNonQuery();
                 }
-                Console.WriteLine($"Saving Player: {player.Name}, {player.Health}, {player.AttackPower}, {player.HealthPotion}, {player.ArmourValue}, {player.MaxHealth}, {player.BlockDmg}, {player.Gold}, {player.Wepon.Name}");
+                Console.WriteLine($"Saving Player: {player.Name}, {player.Health}, {player.AttackPower}, {player.HealthPotion}, {player.ArmourValue}, {player.MaxHealth}, {player.BlockDmg}, {player.Gold}, {player.Wepon.Name}, {player.Exp}");
                 Console.WriteLine("Player data saved to database.");
             }
         }

@@ -24,7 +24,7 @@ namespace RPGFight
              
             
             Player player = save.LoadPlayer();
-            Goblin enemy = new Goblin("Enemy", 80, 15, 8, 0m, 90, 5,10,new Sword());
+            Goblin enemy = new Goblin("Enemy", 80, 15, 8, 0m, 90, 5,10,new Sword(), 0);
 
             Random random = new Random();
 
