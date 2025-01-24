@@ -274,5 +274,35 @@ namespace RPGFight
             return new Goblin("Error Goblin", 100, 20, 8, 0.9m, 120, 0, 0, new Fist(), 0);
 
         }
+        public void WarriorFight(Character player, Random random)
+        {
+            Warrior enemy = new Warrior("Steave", 180, 35, 10, 0.7m, 190, 5, 50, new Fail(), 0);
+
+            // Main game loop
+            while (player.Health > 0 && enemy.Health > 0)
+            {
+                player.TakeTurn(enemy, random);
+                if (enemy.Health <= 0)
+
+                {
+                    Console.WriteLine($"\n{enemy.Name} has been defeated!");
+                    Console.WriteLine("\n You won you gain 50 coins !");
+                    player.Exp = player.Exp + 50;
+                    player.Gold = player.Gold + 50;
+                    return;
+                }
+
+                enemy.TakeTurn(player, random);
+                if (player.Health <= 0)
+                {
+                    Console.WriteLine($"\n{player.Name} has been defeated!");
+                    return;
+                }
+
+                DisplayHealth(player, enemy);
+            }
+
+
+        }
     }
 }
