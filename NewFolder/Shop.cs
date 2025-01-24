@@ -12,7 +12,7 @@ namespace PGFight
     {
         static void DisplayGold(Character player)
         {
-            Console.WriteLine($"\n{player.Name} You Have : {player.Gold} Gold");
+            Console.WriteLine($"\n{player.Name} You Have : {player.Gold} Gold"); //display gold
         }
 
         public void Shoping(Character player)
@@ -20,7 +20,7 @@ namespace PGFight
 
             while (true)
             {
-
+                //shop hub main loop 
                 DisplayGold(player);
                 Console.WriteLine("Chose action ");
                 Console.WriteLine("1. Buy Armour ");
@@ -34,6 +34,7 @@ namespace PGFight
                 {
                     while (true)
                     {
+                        //Armour upegrade loop 
                         Console.WriteLine($"\n{player.Name} You Have : {player.ArmourValue} Armour Value (smaller the better)");
                         Console.WriteLine("Chose action ");
                         Console.WriteLine("1. Upegrade Armour it cost 100 coins");
@@ -46,7 +47,7 @@ namespace PGFight
                             if (player.Gold >= 100)
                             {
                                 if (player.ArmourValue >= 0.6m)
-                                {
+                                { //if player has enaugh gold and dont upegraded his armor too much upegrade armour and reduce gold
                                     player.ArmourValue -= 0.1M;
                                     Console.WriteLine($"\n{player.Name} upegraded armour to  : {player.ArmourValue} Armour Value (smaller the better)");
                                     player.Gold -= 100;
@@ -64,7 +65,7 @@ namespace PGFight
                         }
                         else
                         {
-                            Console.WriteLine("Invalid choice! You are stupid !!");
+                            Console.WriteLine("Invalid choice! You are stupid !!");//Obligatory insult
                         }
                     }
                     }
@@ -72,6 +73,7 @@ namespace PGFight
                     {
                     while (true)
                     {
+                        //Wepon shoping loop 
                         Console.WriteLine($"\n{player.Name} You Have : {player.Wepon} Wepon");
                         Console.WriteLine("Chose action ");
                         Console.WriteLine("1. Buy new SWORD IT COST 200 GOLD");
@@ -86,7 +88,7 @@ namespace PGFight
                         {
                             if (player.Gold >= 200)
                             {
-                               
+                               //IF player is welthy enaught replace it curent wepon with new one and reduce gold
                                     Console.WriteLine($"\n{player.Name} Replaced    : {player.Wepon}  with Sword");
                                 Sword sword = new Sword();
                                 player.Wepon  = sword;
@@ -101,6 +103,7 @@ namespace PGFight
                         {
                             if (player.Gold >= 250)
                             {
+                                //IF player is welthy enaught replace it curent wepon with new one and reduce gold
 
                                 Console.WriteLine($"\n{player.Name} Replaced    : {player.Wepon}  with Fail");
                                 Fail fail = new Fail();
@@ -117,6 +120,7 @@ namespace PGFight
                             if (player.Gold >= 100)
                             {
 
+                                //IF player is welthy enaught replace it curent wepon with new one and reduce gold
                                 Console.WriteLine($"\n{player.Name} Replaced    : {player.Wepon}  with Spear");
                                 Spear spear = new Spear();
                                 player.Wepon = spear;
@@ -132,6 +136,7 @@ namespace PGFight
                             if (player.Gold >= 1000)
                             {
 
+                                //IF player is welthy enaught replace it curent wepon with new one and reduce gold
                                 Console.WriteLine($"\n{player.Name} Replaced    : {player.Wepon}  with Magical sword tm");
                                 MagicSword tm = new MagicSword();
                                 player.Wepon = tm;
@@ -157,6 +162,7 @@ namespace PGFight
                     {
                     while (true)
                     {
+                        //Health potion buy loop
                         Console.WriteLine($"\n{player.Name} You Have : {player.HealthPotion} Health potions");
                         Console.WriteLine("Chose action ");
                         Console.WriteLine("1. Buy 1 potion  IT COST 15 GOLD");
@@ -172,7 +178,8 @@ namespace PGFight
                             if (player.Gold >= 15)
                             {
 
-                              
+
+                                //IF player is welthy enaught increse helath potions and reduce gold
                                 player.HealthPotion += 1;
                                 player.Gold -= 15;
                                 Console.WriteLine($"\n{player.Name} Spended  15 of his prcious gold you still have : {player.Gold} Gold");
@@ -186,7 +193,8 @@ namespace PGFight
                             if (player.Gold >= 50)
                             {
 
-                               
+
+                                //IF player is welthy enaught increse helath potions and reduce gold
                                 player.HealthPotion += 5;
                                 player.Gold -= 50;
                                 Console.WriteLine($"\n{player.Name} Spended  50 gold you are still left with  : {player.Gold} Gold");
@@ -200,7 +208,8 @@ namespace PGFight
                             if (player.Gold >= 100)
                             {
 
-                              
+                                //IF player is welthy enaught increse helath potions and reduce gold
+
                                 player.HealthPotion += 15;
                                 player.Gold -= 100;
                                 Console.WriteLine($"\n{player.Name} Spended  100 gold you have : {player.Gold} Gold");
@@ -214,7 +223,8 @@ namespace PGFight
                             if (player.Gold >= 1000)
                             {
 
-                                
+                                //IF player is welthy enaught increse helath potions and reduce gold
+
                                 player.HealthPotion += 1000 ;
                                 player.Gold -= 1000;
                                 Console.WriteLine($"\n{player.Name} Spended  1000 gold player has : {player.Gold} Gold");

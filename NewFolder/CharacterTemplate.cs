@@ -10,6 +10,7 @@ namespace RPGFight
 {
     public abstract class Character
     {
+        //CHARACTER STATISTICS
         public string Name { get; set; }
         public int Health { get; set; }
         public int MaxHealth { get; set; }
@@ -27,7 +28,7 @@ namespace RPGFight
         public int Exp { get; set; }
 
         public Character(string name, int health, int attackPower, int healthPotion, decimal armourValue, int maxHealth, int blockDmg, int gold,Weapon weapon, int exp)
-        {
+        {//Iniciate statistics
             Name = name;
             Health = health;
             AttackPower = attackPower;
@@ -39,8 +40,8 @@ namespace RPGFight
             Wepon = weapon;
             Exp = exp;
         }
-        public void LevelUp() { }
-        public void ApplyStatusEffect(StatusEffect effect) 
+        public void LevelUp() { }//Level up function 
+        public void ApplyStatusEffect(StatusEffect effect) //add status effect to character
         {
             ActiveEffects.Add(effect);
             Console.WriteLine($"{Name} is affected by {effect.Name} for {effect.Duration} turns!");
@@ -48,14 +49,14 @@ namespace RPGFight
 
         public void ProcessEffects()
         {
-            for (int i = ActiveEffects.Count - 1; i >= 0; i--)
+            for (int i = ActiveEffects.Count - 1; i >= 0; i--)//Go throught all active efects
             {
                 StatusEffect effect = ActiveEffects[i];
-                effect.ApplyEffect(this);
-                effect.ReduceDuration(this);
+                effect.ApplyEffect(this);//Activate effect
+                effect.ReduceDuration(this);//Reduce it timer
 
                 if (effect.IsExpired())
-                {
+                {//Remove effect
                     Console.WriteLine($"{effect.Name} has expired on {Name}.");
                     ActiveEffects.RemoveAt(i);
                 }
@@ -65,12 +66,12 @@ namespace RPGFight
         public abstract void TakeTurn(Character oponent, Random random);
         public int DealDamage(Random random)
         {
-            return random.Next(AttackPower - 5, AttackPower + 5);
+            return Wepon.DealDamage(random,this);//Invokes wepon deamage logic
         }
 
         public int HealDamage(Random random)
         {
-            if (HealthPotion > 0)
+            if (HealthPotion > 0)//Check if player still has potions
             {
                 HealthPotion -= 1;
                 int Heal = random.Next(20, 40);
@@ -83,10 +84,10 @@ namespace RPGFight
 
         public int TakeDamage(int damage)
         {
-            damage = damage - BlockDmg;
+            damage = damage - BlockDmg;//reduce Damage by block 
             BlockDmg = 0;
             if (ArmourValue > 0)
-            {
+            {//Reduce damage by armor 
                 decimal taken = damage * ArmourValue;
                 damage = (int)Math.Round(taken, 0);
                 Health -= damage;

@@ -17,11 +17,11 @@ namespace RPGFight
             
         }
         
-        public void LevelUp() {
-            if (Exp >= 100)
+        public void LevelUp() {//Self upegrade function
+            if (Exp >= 100)//if exp is big enaugh to level up activate level up function
                 { Exp -= 100;
                 while (true)
-                {
+                {//level up logic 
                     Console.WriteLine("YOU LEVEL UP !!!!!!! ");
                     Console.WriteLine("Chose what to upegrade ");
                     Console.WriteLine("1. Attack");
@@ -31,7 +31,7 @@ namespace RPGFight
                     if (choice == "1")
                     {
                         AttackPower += 20;
-
+                        //increse atack power
                         Console.WriteLine($"Attack incresed by 20 current attack is{AttackPower} ");
                         return;
                     }
@@ -39,7 +39,7 @@ namespace RPGFight
                     {
                         MaxHealth += 20;
                         Health = MaxHealth;
-
+                        //improve max health and heal player to full
                         Console.WriteLine($"Health  incresed by 20 current MaxHealth  is{MaxHealth} ");
                         return;
                     }
@@ -54,7 +54,7 @@ namespace RPGFight
             
             }
         public override void TakeTurn(Character enemy, Random random)
-        {
+        {//Player logic
             Console.WriteLine("\nYour Turn:");
             ProcessEffects();
             Console.WriteLine("1. Attack");
@@ -66,23 +66,23 @@ namespace RPGFight
             string choice = Console.ReadLine();
 
             if (choice == "1")
-            {
+            {//Atack enemy
                 int damage = DealDamage(random);
                 damage = enemy.TakeDamage(damage);
                 Console.WriteLine($"{Name} attacks  {enemy.Name} using {Wepon.Name} for {damage} damage!");
             }
             else if (choice == "2")
-            {
+            {//Bolock abiliti
                 Console.WriteLine($"{Name} braces for the next attack.");
                 BlockDmg = 10;
             }
             else if (choice == "4")
-            {
+            {//Damage over time abiliti
                 DamageOverTime dot = new DamageOverTime("Burning", 3, 10);
                 enemy.ApplyStatusEffect(dot);
             }
             else if (choice == "3")
-            {
+            {//Heal or insult if player dont look if he has still health potion
                 if (HealthPotion > 0)
                 {
                     int heal = HealDamage(random);

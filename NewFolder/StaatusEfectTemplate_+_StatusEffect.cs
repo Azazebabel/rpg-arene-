@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace RPGFight
 
 {
-    public abstract class StatusEffect
+    public abstract class StatusEffect// status efect template
     {
         public string Name { get; set; }
         public int Duration { get; set; } // Number of turns the effect lasts
@@ -23,7 +23,7 @@ namespace RPGFight
             // Base logic (can be overridden by child classes)
         }
 
-        public virtual void ReduceDuration(Character target)
+        public virtual void ReduceDuration(Character target)//build in timer
         {
             Duration--;
         }
@@ -45,7 +45,7 @@ namespace RPGFight
 
         public override void ApplyEffect(Character target)
         {
-            target.TakeDamage(DamagePerTurn);
+            target.TakeDamage(DamagePerTurn);//this one deals constatnt damage throught few turns
             Console.WriteLine($"{target.Name} takes {DamagePerTurn} damage from {Name}!");
         }
     }
@@ -62,9 +62,9 @@ namespace RPGFight
         public override void ApplyEffect(Character target)
         {
             target.Health += 5;
-            if (target.MaxHealth < target.Health) 
+            if (target.MaxHealth < target.Health) //check if it dont go over max health
                 target.Health = target.MaxHealth;
-            Console.WriteLine($"{target.Name} restores {DamagePerTurn} health from {Name}!");
+            Console.WriteLine($"{target.Name} restores {DamagePerTurn} health from {Name}!");//this one regenerate health through few turns 
         }
     }
     public class AttackPowerNerf : StatusEffect
@@ -79,7 +79,7 @@ namespace RPGFight
 
         public override void ApplyEffect(Character target)
         {
-            target.AttackPower -= AttackReduction;
+            target.AttackPower -= AttackReduction;//Reduce target AtackPowere value
             Console.WriteLine($"{target.Name}'s Attack Power is reduced by {AttackReduction} due to {Name}!");
         }
 

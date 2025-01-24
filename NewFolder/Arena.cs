@@ -17,7 +17,7 @@ namespace RPGFight
         }
         public void Arena(Character player, Random random)
         {
-
+            //option tree for combat hub
             Console.WriteLine("Chose action ");
             Console.WriteLine("1. Fight ugly  Goblin ");
             Console.WriteLine("2. Fight roting Zombie");
@@ -28,31 +28,37 @@ namespace RPGFight
 
             if (choice == "1")
             {
+                //go to fight 
                 GoblinFight(player, random);
-                player.LevelUp();
+                player.LevelUp();//function that check if player level up 
                 return;
             }
             else if (choice == "2")
             {
+                //same as goblin fight
                 ZombieFight(player, random);
                 player.LevelUp();
                 return;
             }
             else if (choice == "3")
             {
+                //same as goblin fight
                 WarriorFight(player, random);
                 player.LevelUp();
                 return;
             }
             else if (choice == "4")
             {
+                //this fight is intended as boss fight ,limit fight outside big price
                 Console.WriteLine($"You have {player.Gold} gold you need 1000 to chalenge arena champion ");
                 if (player.Gold >= 1000)
                 {
+                    //second check if player is sure to fight
                     Console.WriteLine("Do you want fight Arena champion press 1 to chalenge him ");
                     choice = Console.ReadLine();
                     if (choice == "1")
                     {
+                        //boss fight
                         ChampionFight(player, random);
                         player.LevelUp();
 
@@ -72,6 +78,7 @@ namespace RPGFight
         }
         public void ChampionFight(Character player, Random random)
         {
+            //boss fight higher stats than other things in game
             Champion enemy = new Champion("Lord Champion ", 990, 55, 88, 7.0m, 990, 50, 1000, new Sword(), 0);
 
             // Main game loop
@@ -104,6 +111,7 @@ namespace RPGFight
         }
         public void GoblinFight(Character player, Random random)
         {
+            //Load statistic from database
             Goblin enemy = LoadGoblin();
             // Main game loop
             while (player.Health > 0 && enemy.Health > 0)
@@ -135,6 +143,7 @@ namespace RPGFight
         }
         public void ZombieFight(Character player, Random random)
         {
+            //Load statistic from database
             Zombie enemy = LoadZombie();
 
             // Main game loop
@@ -166,6 +175,7 @@ namespace RPGFight
         }
         public void WarriorFight(Character player, Random random)
         {
+            //Here i forget to make database but it is only a prototype in the end
             Warrior enemy = new Warrior("Steave", 180, 35, 10, 0.7m, 190, 5, 50, new Fail(), 0);
 
             // Main game loop
@@ -197,13 +207,13 @@ namespace RPGFight
         public Zombie LoadZombie()
         {
 
+            //Load statistic from database
 
-
-            using (var connection = new SqliteConnection("Data Source=Zombie.db")) 
+            using (var connection = new SqliteConnection("Data Source=Zombie.db")) //Database name
             {
                 connection.Open();
 
-                string selectQuery = "SELECT * FROM Zombie ORDER BY RANDOM() LIMIT 1"; // Get the latest player
+                string selectQuery = "SELECT * FROM Zombie ORDER BY RANDOM() LIMIT 1"; // Get the random statistic
 
                 using (var command = new SqliteCommand(selectQuery, connection))
                 {
@@ -220,9 +230,9 @@ namespace RPGFight
                              reader.GetDecimal(5), // ArmourValue
                              reader.GetInt32(6),   // MaxHealth
                              reader.GetInt32(7),   // BlockDmg
-                             reader.GetInt32(8),   // Gold
+                             reader.GetInt32(8),   // Gold left here if i want to make player get gold from enemy insted of flat gold buff
                             new Fist(), // Weapon placeholder
-                            0//exp
+                            0//exp enemies dont use this thats why it is 0 
                          );
 
                         }
@@ -231,7 +241,7 @@ namespace RPGFight
             }
 
             Console.WriteLine("No saved player data found.");
-            return new Zombie("Error corpse", 100, 20, 8, 0.9m, 120, 0, 0, new Fist(), 0);
+            return new Zombie("Error corpse", 100, 20, 8, 0.9m, 120, 0, 0, new Fist(), 0);//If somthing go wrong 
 
         }
         public Goblin LoadGoblin()
@@ -239,12 +249,11 @@ namespace RPGFight
 
 
 
-            using (var connection = new SqliteConnection("Data Source=Goblin.db"))
+            using (var connection = new SqliteConnection("Data Source=Goblin.db"))//database link
             {
                 connection.Open();
 
-                string selectQuery = "SELECT * FROM Goblin ORDER BY RANDOM() LIMIT 1"; // Get the latest player
-
+                string selectQuery = "SELECT * FROM Goblin ORDER BY RANDOM() LIMIT 1"; // Get the random enemy 
                 using (var command = new SqliteCommand(selectQuery, connection))
                 {
                     using (var reader = command.ExecuteReader())
@@ -274,5 +283,6 @@ namespace RPGFight
             return new Goblin("Error Goblin", 100, 20, 8, 0.9m, 120, 0, 0, new Fist(), 0);
 
         }
+      
     }
 }

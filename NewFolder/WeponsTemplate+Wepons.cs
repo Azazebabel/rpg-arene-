@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace RPGFight
 {
-       public abstract class Weapon
+       public abstract class Weapon//wepon template
         {
             public string Name { get; }
             public int AditionalDamage { get; }
@@ -19,7 +19,7 @@ namespace RPGFight
             }
 
             public abstract int DealDamage(Random random, Character user);
-            public abstract void ApplySpecialEffect(Character target, Random random);
+            public abstract void ApplySpecialEffect(Character target, Random random);//unused left for future uses 
         }
     public class Spear : Weapon
     {
@@ -28,7 +28,7 @@ namespace RPGFight
         public override int DealDamage(Random random, Character user)
         {
             // Slight variation in damage
-            return random.Next(user.AttackPower, AditionalDamage + user.AttackPower );
+            return random.Next(user.AttackPower, AditionalDamage + user.AttackPower );//damage logic
         }
 
         public override void ApplySpecialEffect(Character target, Random random)
@@ -43,7 +43,7 @@ namespace RPGFight
         public override int DealDamage(Random random, Character user)
         {
             // Slight variation in damage
-            return random.Next( 0, AditionalDamage + user.AttackPower + 40);
+            return random.Next( 0, AditionalDamage + user.AttackPower + 40);//damage logic
         }
 
         public override void ApplySpecialEffect(Character target, Random random)
@@ -58,7 +58,7 @@ namespace RPGFight
         public override int DealDamage(Random random, Character user)
         {
             // Slight variation in damage
-            return random.Next(AditionalDamage + user.AttackPower - 5, AditionalDamage+ user.AttackPower + 3);
+            return random.Next(AditionalDamage + user.AttackPower - 5, AditionalDamage+ user.AttackPower + 3);//Damage logic
         }
 
         public override void ApplySpecialEffect(Character target, Random random)
@@ -73,7 +73,7 @@ namespace RPGFight
         public override int DealDamage(Random random, Character user)
         {
             // Slight variation in damage
-            return random.Next( user.AttackPower - 3, AditionalDamage);
+            return random.Next( user.AttackPower - 3, AditionalDamage);//Damage logic
         }
 
         public override void ApplySpecialEffect(Character target, Random random)
@@ -89,7 +89,7 @@ namespace RPGFight
         public override int DealDamage(Random random, Character user)
         {
             // Slight variation in damage
-            return (user.AttackPower + AditionalDamage);
+            return (user.AttackPower + AditionalDamage);//Damage logic
         }
 
         public override void ApplySpecialEffect(Character target, Random random)

@@ -16,6 +16,7 @@ namespace RPGFight
 
         public Player LoadPlayer()
         {
+            //Playrer chose if he want to load save or if he want start new 
             Console.WriteLine("Chose action ");
             Console.WriteLine("1. Load save ");
             Console.WriteLine("2/any other c" +
@@ -26,7 +27,7 @@ namespace RPGFight
 
             if (choice == "1")
             {
-                using (var connection = new SqliteConnection(ConnectionString))
+                using (var connection = new SqliteConnection(ConnectionString))//load save
                 {
                     connection.Open();
 
@@ -38,6 +39,7 @@ namespace RPGFight
                         {
                             if (reader.Read())
                             {
+                                //Let player see saved values
                                 Console.WriteLine($"Name: {reader.GetString(1)}");
                                 Console.WriteLine($"Health: {reader.GetInt32(2)}");
                                 Console.WriteLine($"AttackPower: {reader.GetInt32(3)}");
@@ -64,25 +66,25 @@ namespace RPGFight
                     }
                 }
 
-                Console.WriteLine("No saved player data found.");
+                Console.WriteLine("No saved player data found.");//If somthing go wrong
                 return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 0, new Fist(),0);
             }
             else
-                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 10, new Fist(),0);
+                return new Player("Player", 100, 20, 8, 0.9m, 120, 0, 10, new Fist(),0);//If player want to start new 
         }
 
         public void SaveFile(Character player)
         {
             using (var connection = new SqliteConnection(ConnectionString))
             {
-                connection.Open();
+                connection.Open();//magic string that makes it all work 
                 string insertQuery = @"
                     INSERT INTO Player (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon,Exp)
                     VALUES (@Name, @Health, @AttackPower, @HealthPotion, @ArmourValue, @MaxHealth, @BlockDmg, @Gold, @Weapon,@Exp);
                     ";
 
 
-                using (var command = new SqliteCommand(insertQuery, connection))
+                using (var command = new SqliteCommand(insertQuery, connection))//this transfer  data from player to database
                 {
                     command.Parameters.AddWithValue("@Name", player.Name);
                     command.Parameters.AddWithValue("@Health", player.Health);
@@ -97,7 +99,7 @@ namespace RPGFight
 
                     command.ExecuteNonQuery();
                 }
-                Console.WriteLine($"Saving Player: {player.Name}, {player.Health}, {player.AttackPower}, {player.HealthPotion}, {player.ArmourValue}, {player.MaxHealth}, {player.BlockDmg}, {player.Gold}, {player.Wepon.Name}, {player.Exp}");
+                Console.WriteLine($"Saving Player: {player.Name}, {player.Health}, {player.AttackPower}, {player.HealthPotion}, {player.ArmourValue}, {player.MaxHealth}, {player.BlockDmg}, {player.Gold}, {player.Wepon.Name}, {player.Exp}");//inform player abaut saved statistic
                 Console.WriteLine("Player data saved to database.");
             }
         }
@@ -107,7 +109,7 @@ namespace RPGFight
             {
                 connection.Open();
 
-                string deleteQuery = "DELETE FROM Player WHERE Name = @Name;";
+                string deleteQuery = "DELETE FROM Player WHERE Name = @Name;";//magic string that delete save
 
                 using (var command = new SqliteCommand(deleteQuery, connection))
                 {
@@ -124,7 +126,7 @@ namespace RPGFight
             using (var connection = new SqliteConnection(ConnectionString))
             {
                 connection.Open();
-
+                //text that set up new database if ther is none
                 string createTableQuery = @"
                         CREATE TABLE IF NOT EXISTS Player (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -155,6 +157,7 @@ namespace RPGFight
             {
                 connection.Open();
 
+                //text that set up new database if ther is none
                 string createTableQuery = @"
                         CREATE TABLE IF NOT EXISTS Goblin (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -179,7 +182,7 @@ namespace RPGFight
                 Console.WriteLine("Database initialized and Goblin table created.");
             
            
-            
+            //ste up goblin stats posible to easly make more
 
                 string insertQuery = @"
             INSERT INTO Goblin (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon,Exp)
@@ -202,6 +205,7 @@ namespace RPGFight
             {
                 connection.Open();
 
+                //text that set up new database if ther is none
                 string createTableQuery = @"
                         CREATE TABLE IF NOT EXISTS Zombie (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -227,7 +231,7 @@ namespace RPGFight
 
 
 
-
+                //set up enemy stats for zombie 
                 string insertQuery = @"
             INSERT INTO Zombie (Name, Health, AttackPower, HealthPotion, ArmourValue, MaxHealth, BlockDmg, Gold, Weapon,Exp)
             VALUES
