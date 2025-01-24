@@ -81,6 +81,30 @@ namespace RPGFight
             //boss fight higher stats than other things in game
             Champion enemy = new Champion("Lord Champion ", 990, 55, 88, 7.0m, 990, 50, 1000, new Sword(), 0);
 
+
+                enemy.TakeTurn(player, random);
+                if (player.Health <= 0)
+                {
+                    Console.WriteLine($"\n{player.Name} has been defeated!");
+                    return;
+                }
+
+                DisplayHealth(player, enemy);
+            }
+
+
+
+
+        }
+        public void GoblinFight(Character player, Random random)
+        {
+            Goblin enemy = new Goblin("Gobo", 80, 15, 8, 0m, 90, 5, 10, new Sword(),0);
+=========
+        public void ChampionFight(Character player, Random random)
+        {
+            Champion enemy = new Champion("Lord Champion ", 990, 55, 88, 7.0m, 990, 50, 1000, new Sword(), 0);
+>>>>>>>>> Temporary merge branch 2
+
             // Main game loop
             while (player.Health > 0 && enemy.Health > 0)
             {
@@ -111,7 +135,6 @@ namespace RPGFight
         }
         public void GoblinFight(Character player, Random random)
         {
-            //Load statistic from database
             Goblin enemy = LoadGoblin();
             // Main game loop
             while (player.Health > 0 && enemy.Health > 0)
@@ -143,7 +166,9 @@ namespace RPGFight
         }
         public void ZombieFight(Character player, Random random)
         {
-            //Load statistic from database
+<<<<<<<<< Temporary merge branch 1
+            Zombie enemy = new Zombie("Unamed corpse", 80, 15, 8, 0m, 90, 5, 20, new Fist(), 0);
+=========
             Zombie enemy = LoadZombie();
 
             // Main game loop
