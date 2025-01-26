@@ -33,5 +33,17 @@ In order to test it yourself dowland project and open file then Bin ->Debug->net
 
 Code is written in modular manner 
 
-Code in whole written by me Co creator abodoned me making it less good than i intended ![image](https://github.com/user-attachments/assets/d6f6a25c-88cb-4b3d-85c0-192c970bf206)
+
+
+
+
+
+
+
+
+
+
+
+Code in whole written by me Co creator abodoned me making it less good than i intended ![Untitled](https://github.com/user-attachments/assets/610ad4fa-f73a-41ed-a849-b783f85d4f44)
+
 
