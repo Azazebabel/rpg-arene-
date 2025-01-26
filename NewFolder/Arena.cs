@@ -95,44 +95,13 @@ namespace RPGFight
 
 
 
-        }
-        public void GoblinFight(Character player, Random random)
-        {
-            Goblin enemy = new Goblin("Gobo", 80, 15, 8, 0m, 90, 5, 10, new Sword(),0);
-=========
-        public void ChampionFight(Character player, Random random)
-        {
-            Champion enemy = new Champion("Lord Champion ", 990, 55, 88, 7.0m, 990, 50, 1000, new Sword(), 0);
->>>>>>>>> Temporary merge branch 2
-
-            // Main game loop
-            while (player.Health > 0 && enemy.Health > 0)
-            {
-                player.TakeTurn(enemy, random);
-                if (enemy.Health <= 0)
-
-                {
-                    Console.WriteLine($"\n{enemy.Name} has been defeated!");
-                    Console.WriteLine("\n You won you gain 2000 coins !");
-                    player.Exp = player.Exp + 100;
-                    player.Gold = player.Gold + 20000;
-                    return;
-                }
-
-                enemy.TakeTurn(player, random);
-                if (player.Health <= 0)
-                {
-                    Console.WriteLine($"\n{player.Name} has been defeated!");
-                    return;
-                }
-
-                DisplayHealth(player, enemy);
-            }
+        
+      
 
 
 
 
-        }
+        
         public void GoblinFight(Character player, Random random)
         {
             Goblin enemy = LoadGoblin();
@@ -166,9 +135,8 @@ namespace RPGFight
         }
         public void ZombieFight(Character player, Random random)
         {
-<<<<<<<<< Temporary merge branch 1
-            Zombie enemy = new Zombie("Unamed corpse", 80, 15, 8, 0m, 90, 5, 20, new Fist(), 0);
-=========
+
+
             Zombie enemy = LoadZombie();
 
             // Main game loop

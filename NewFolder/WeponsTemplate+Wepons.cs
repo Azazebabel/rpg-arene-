@@ -73,7 +73,7 @@ namespace RPGFight
         public override int DealDamage(Random random, Character user)
         {
             // Slight variation in damage
-            return random.Next( user.AttackPower - 3, AditionalDamage);//Damage logic
+            return random.Next( user.AttackPower - 3, user.AttackPower);//Damage logic
         }
 
         public override void ApplySpecialEffect(Character target, Random random)
